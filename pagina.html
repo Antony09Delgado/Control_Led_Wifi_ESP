@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Control de LEDs</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #101726;
+      color: #eef;
+      font-family: Arial, sans-serif;
+    }
+    .panel {
+      width: min(92%, 480px);
+      padding: 24px;
+      border-radius: 20px;
+      background: #14203a;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
+    h1 {
+      margin: 0 0 18px;
+      font-size: 2rem;
+    }
+    .buttons {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    button {
+      border: none;
+      border-radius: 16px;
+      padding: 16px 12px;
+      background: #1f2f4b;
+      color: #eef;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      min-height: 110px;
+      font-size: 0.95rem;
+    }
+    button.on {
+      background: #3f6b98;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+    }
+    .icon {
+      font-size: 2.4rem;
+      line-height: 1;
+    }
+    .label {
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h1>Control de LEDs</h1>
+    <p>Este es el HTML de ejemplo. Si lo usas con el ESP, carga la página desde su IP local.</p>
+    <div class="buttons">
+      <button id="btnAzul" class="button" data-pin="16">
+        <span class="icon">🔵</span>
+        <span class="label">Azul</span>
+      </button>
+      <button id="btnVerde" class="button" data-pin="5">
+        <span class="icon">🟢</span>
+        <span class="label">Verde</span>
+      </button>
+      <button id="btnRojo" class="button" data-pin="4">
+        <span class="icon">🔴</span>
+        <span class="label">Rojo</span>
+      </button>
+    </div>
+  </div>
+  <script>
+    document.querySelectorAll('button[data-pin]').forEach(function(button) {
+      button.addEventListener('click', function() {
+        var pin = button.dataset.pin;
+        fetch('/toggle?pin=' + pin)
+          .then(function(response) {
+            if (!response.ok) {
+              throw new Error('Error en el servidor');
+            }
+            button.classList.toggle('on');
+          })
+          .catch(function(error) {
+            console.error(error);
+            alert('No se pudo cambiar el estado. Asegúrate de estar conectado al ESP.');
+          });
+      });
+    });
+  </script>
+</body>
+</html>
