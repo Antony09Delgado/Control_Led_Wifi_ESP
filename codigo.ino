@@ -1,8 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
-const char* ssid = "Tiktok";
-const char* password = "12345678";
+const char* ssid = "nombre del wifi aqui";
+const char* password = "Clave dek wifi aqui";
 
 const int LED_AZUL = D0;   // GPIO16
 const int LED_VERDE = D1;  // GPIO5
